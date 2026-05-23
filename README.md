@@ -23,7 +23,7 @@ Replace: `YOURNAME`, `YOURREPO`
 
 1. Generate a new project with this template
 1. Settings → Actions → General → Workflow permissions, set `Read and write permissions` and enable `Allow GitHub Actions to create and approve pull requests` on Github
-1. Replace `evative7-template0-app` to your app name
+1. Replace `EvATive7CloudImageHost` to your app name
 1. Install dependencies: `uv sync --all-groups` in `backend` and `pnpm install` in `frontend`
 
 ### Manage

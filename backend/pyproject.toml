@@ -1,6 +1,6 @@
 [project]
 # TODO: Finish this
-name = "evative7-template0-app-backend"
+name = "EvATive7CloudImageHost-backend"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [

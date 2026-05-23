@@ -129,7 +129,7 @@ def main():
     metadata_path = generate_metadata(version)
 
     try:
-        build_cmd = ["uv", "run", "--with", "pyinstaller", "pyinstaller", "-F", "-n", "evative7-template0-app"]
+        build_cmd = ["uv", "run", "--with", "pyinstaller", "pyinstaller", "-F", "-n", "EvATive7CloudImageHost"]
         if not skip_frontend:
             build_cmd.extend(
                 [

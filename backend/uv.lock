@@ -282,7 +282,7 @@ wheels = [
 ]
 
 [[package]]
-name = "evative7-template0-app-backend"
+name = "EvATive7CloudImageHost-backend"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
