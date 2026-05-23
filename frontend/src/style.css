@@ -71,6 +71,12 @@ a {
   color: var(--muted);
 }
 
+.globe-icon {
+  color: var(--muted);
+  flex-shrink: 0;
+  display: block;
+}
+
 .locale-select {
   border: 0;
   background: transparent;
@@ -127,7 +133,11 @@ a {
 }
 
 .upload-input {
-  display: none;
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
 }
 
 .upload-kicker {

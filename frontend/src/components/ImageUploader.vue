@@ -43,7 +43,7 @@ function onDrop(event: DragEvent) {
       class="upload-input"
       type="file"
       multiple
-      accept="image/jpeg,image/png,image/webp"
+      accept="image/*"
       :disabled="disabled"
       @change="onChange"
     />
