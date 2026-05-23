@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from "vue-i18n";
+
 defineProps<{
   disabled?: boolean;
   maxSizeLabel: string;
@@ -7,6 +9,8 @@ defineProps<{
 const emit = defineEmits<{
   add: [files: FileList | File[]];
 }>();
+
+const { t } = useI18n();
 
 function onChange(event: Event) {
   const input = event.target as HTMLInputElement;
@@ -44,7 +48,7 @@ function onDrop(event: DragEvent) {
       @change="onChange"
     />
     <span class="upload-kicker">EvATive7 Cloud Image Host</span>
-    <strong class="upload-title">拖拽图片到这里，或点这里选文件</strong>
-    <span class="upload-hint">支持 JPG、PNG、WebP，单文件最大 {{ maxSizeLabel }}</span>
+    <strong class="upload-title">{{ t("uploader.title") }}</strong>
+    <span class="upload-hint">{{ t("uploader.hint", { size: maxSizeLabel }) }}</span>
   </label>
 </template>

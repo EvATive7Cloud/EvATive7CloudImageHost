@@ -1,0 +1,8 @@
+allowed_types:
+- image/jpeg
+- image/png
+- image/webp
+host: 0.0.0.0
+max_file_size: 5242880
+mount_path: /imgs
+port: 8000

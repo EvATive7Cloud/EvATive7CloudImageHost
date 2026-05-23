@@ -9,6 +9,7 @@ import yaml
 
 DEFAULT_CONFIG = {
     "allowed_types": ["image/jpeg", "image/png", "image/webp"],
+    "host": "0.0.0.0",
     "max_file_size": 5 * 1024 * 1024,
     "mount_path": "/imgs",
     "port": 8000,
@@ -21,6 +22,7 @@ class AppConfig:
     image_dir: Path
     config_file: Path
     allowed_types: list[str]
+    host: str
     max_file_size: int
     mount_path: str
     port: int
@@ -55,6 +57,7 @@ def load_app_config(data_dir: str | Path | None = None) -> AppConfig:
         image_dir=image_dir,
         config_file=config_file,
         allowed_types=[str(item) for item in merged["allowed_types"]],
+        host=str(merged["host"]).strip() or DEFAULT_CONFIG["host"],
         max_file_size=int(merged["max_file_size"]),
         mount_path=mount_path,
         port=int(merged["port"]),

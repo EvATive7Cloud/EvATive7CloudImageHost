@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from "vue-i18n";
+
 export type UploadItem = {
   key: string;
   file: File;
@@ -16,6 +18,8 @@ const emit = defineEmits<{
   remove: [key: string];
   copy: [text: string];
 }>();
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -42,10 +46,10 @@ const emit = defineEmits<{
           type="button"
           @click="emit('copy', item.remoteUrl)"
         >
-          复制
+          {{ t("image.copy") }}
         </button>
         <button class="button button-danger" type="button" @click="emit('remove', item.key)">
-          删除
+          {{ t("image.remove") }}
         </button>
       </div>
     </article>

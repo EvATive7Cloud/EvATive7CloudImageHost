@@ -50,6 +50,39 @@ a {
   padding: 56px 0 72px;
 }
 
+.topbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.locale-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid var(--panel-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 10px 24px rgba(19, 39, 63, 0.08);
+}
+
+.locale-label {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.locale-select {
+  border: 0;
+  background: transparent;
+  color: #18212f;
+  cursor: pointer;
+}
+
+.locale-select:focus {
+  outline: none;
+}
+
 .hero {
   margin-bottom: 24px;
 }
@@ -206,6 +239,15 @@ a {
   .page-shell {
     width: min(100%, calc(100% - 20px));
     padding-top: 28px;
+  }
+
+  .topbar {
+    justify-content: stretch;
+  }
+
+  .locale-switcher {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .upload-panel {

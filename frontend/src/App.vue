@@ -1,19 +1,29 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { useI18n } from "vue-i18n";
 import ImageList, { type UploadItem } from "./components/ImageList.vue";
 import ImageUploader from "./components/ImageUploader.vue";
 import { fetchConfig, uploadImages, type UploadResult } from "./api";
+import { setLocale, supportedLocales, type SupportedLocale } from "./i18n";
 
 const items = ref<UploadItem[]>([]);
 const allowedTypes = ref(["image/jpeg", "image/png", "image/webp"]);
 const maxFileSize = ref(5 * 1024 * 1024);
-const copyAllLabel = ref("复制全部");
-const uploadLabel = ref("上传");
 const loadingConfig = ref(true);
+const copyAllFeedback = ref<string | null>(null);
+const uploadFeedback = ref<string | null>(null);
+const { locale, t } = useI18n();
 
 const pendingItems = computed(() => items.value.filter((item) => item.status === "pending"));
 const uploadedUrls = computed(() => items.value.flatMap((item) => (item.remoteUrl ? [item.remoteUrl] : [])));
 const maxSizeLabel = computed(() => `${(maxFileSize.value / 1024 / 1024).toFixed(1)} MB`);
+const uploadLabel = computed(() => uploadFeedback.value ?? t("app.upload"));
+const copyAllLabel = computed(() => copyAllFeedback.value ?? t("app.copyAll"));
+const localeOptions: { value: SupportedLocale; labelKey: string }[] = [
+  { value: "zh-CN", labelKey: "language.zhCN" },
+  { value: "en", labelKey: "language.en" },
+  { value: "ja", labelKey: "language.ja" },
+];
 
 onMounted(async () => {
   try {
@@ -32,12 +42,12 @@ onBeforeUnmount(() => {
 function addFiles(fileList: FileList | File[]) {
   for (const file of Array.from(fileList)) {
     if (!allowedTypes.value.includes(file.type)) {
-      window.alert(`不支持的文件类型：${file.name}`);
+      window.alert(t("feedback.unsupportedType", { name: file.name }));
       continue;
     }
 
     if (file.size > maxFileSize.value) {
-      window.alert(`文件过大：${file.name}`);
+      window.alert(t("feedback.fileTooLarge", { name: file.name }));
       continue;
     }
 
@@ -53,7 +63,7 @@ function addFiles(fileList: FileList | File[]) {
       file,
       previewUrl: URL.createObjectURL(file),
       status: "pending",
-      message: "等待上传",
+      message: t("status.pending"),
       remoteUrl: null,
     });
   }
@@ -61,13 +71,13 @@ function addFiles(fileList: FileList | File[]) {
 
 async function onUpload() {
   if (!pendingItems.value.length) {
-    flashLabel(uploadLabel, "没有待上传文件");
+    flashLabel(uploadFeedback, t("feedback.noPendingFiles"));
     return;
   }
 
   pendingItems.value.forEach((item) => {
     item.status = "uploading";
-    item.message = "上传中";
+    item.message = t("status.uploading");
   });
 
   try {
@@ -79,7 +89,7 @@ async function onUpload() {
   } catch {
     pendingItems.value.forEach((item) => {
       item.status = "error";
-      item.message = "网络错误";
+      item.message = t("status.networkError");
     });
   }
 }
@@ -92,7 +102,7 @@ function applyUploadResult(result: UploadResult) {
 
   if (result.status === 201) {
     item.status = "success";
-    item.message = "上传成功";
+    item.message = t("status.success");
     item.remoteUrl = new URL(result.url, window.location.origin).toString();
     return;
   }
@@ -101,20 +111,20 @@ function applyUploadResult(result: UploadResult) {
   item.message = result.message;
 }
 
-async function copyText(text: string, label?: typeof copyAllLabel) {
+async function copyText(text: string, showFeedback = false) {
   await navigator.clipboard.writeText(text);
-  if (label) {
-    flashLabel(label, "已复制");
+  if (showFeedback) {
+    flashLabel(copyAllFeedback, t("feedback.copied"));
   }
 }
 
 function copyAll() {
   if (!uploadedUrls.value.length) {
-    flashLabel(copyAllLabel, "没有可复制链接");
+    flashLabel(copyAllFeedback, t("feedback.noLinksToCopy"));
     return;
   }
 
-  void copyText(uploadedUrls.value.join("\n"), copyAllLabel);
+  void copyText(uploadedUrls.value.join("\n"), true);
 }
 
 function removeItem(key: string) {
@@ -132,21 +142,38 @@ function clearQueue() {
   items.value = [];
 }
 
-function flashLabel(target: typeof copyAllLabel, text: string) {
-  const previous = target.value;
+function flashLabel(target: typeof copyAllFeedback, text: string) {
   target.value = text;
   window.setTimeout(() => {
-    target.value = previous;
+    target.value = null;
   }, 2000);
+}
+
+function onLocaleChange(event: Event) {
+  const nextLocale = (event.target as HTMLSelectElement).value;
+  if (supportedLocales.includes(nextLocale as SupportedLocale)) {
+    setLocale(nextLocale as SupportedLocale);
+  }
 }
 </script>
 
 <template>
   <main class="page-shell">
+    <section class="topbar">
+      <label class="locale-switcher">
+        <span class="locale-label">{{ t("language.label") }}</span>
+        <select class="locale-select" :value="locale" @change="onLocaleChange">
+          <option v-for="option in localeOptions" :key="option.value" :value="option.value">
+            {{ t(option.labelKey) }}
+          </option>
+        </select>
+      </label>
+    </section>
+
     <section class="hero">
-      <p class="hero-eyebrow">兼容旧接口</p>
-      <h1 class="hero-title">图床上传面板</h1>
-      <p class="hero-copy">保留旧 API，前端换成 Vue 组件化结构。</p>
+      <p class="hero-eyebrow">{{ t("app.eyebrow") }}</p>
+      <h1 class="hero-title">{{ t("app.title") }}</h1>
+      <p class="hero-copy">{{ t("app.description") }}</p>
     </section>
 
     <ImageUploader :disabled="loadingConfig" :max-size-label="maxSizeLabel" @add="addFiles" />
@@ -154,7 +181,7 @@ function flashLabel(target: typeof copyAllLabel, text: string) {
     <section class="toolbar">
       <button class="button button-primary" type="button" @click="onUpload">{{ uploadLabel }}</button>
       <button class="button button-secondary" type="button" @click="copyAll">{{ copyAllLabel }}</button>
-      <button class="button button-danger" type="button" @click="clearQueue">清空队列</button>
+      <button class="button button-danger" type="button" @click="clearQueue">{{ t("app.clearQueue") }}</button>
     </section>
 
     <ImageList :items="items" @remove="removeItem" @copy="copyText" />
