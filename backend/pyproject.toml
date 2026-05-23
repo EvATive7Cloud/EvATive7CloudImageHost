@@ -1,0 +1,34 @@
+[project]
+# TODO: Finish this
+name = "evative7-template0-app-backend"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.135.3",
+    "loguru>=0.7.3",
+    "pygments>=2.20.0",
+    "python-dotenv>=1.2.2",
+    "uvicorn>=0.43.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+    "pytest-asyncio>=1.3.0",
+    "pytest-cov>=7.1.0",
+    "httpx>=0.28.1",
+    "watchfiles>=1.1.1",
+]
+
+build = [
+    "pyinstaller>=6.19.0"
+]
+
+security = [
+    "pip-audit>=2.10.0"
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
