@@ -39,9 +39,29 @@ onBeforeUnmount(() => {
   items.value.forEach((item) => URL.revokeObjectURL(item.previewUrl));
 });
 
+function getNormalizedType(file: File): string {
+  let type = file.type ? file.type.toLowerCase() : "";
+  if (!type && file.name) {
+    const ext = file.name.split(".").pop()?.toLowerCase();
+    if (ext === "jpg" || ext === "jpeg") {
+      type = "image/jpeg";
+    } else if (ext === "png") {
+      type = "image/png";
+    } else if (ext === "webp") {
+      type = "image/webp";
+    }
+  }
+  if (type === "image/jpg") {
+    type = "image/jpeg";
+  }
+  return type;
+}
+
 function addFiles(fileList: FileList | File[]) {
   for (const file of Array.from(fileList)) {
-    if (!allowedTypes.value.includes(file.type)) {
+    const normalizedType = getNormalizedType(file);
+
+    if (!allowedTypes.value.includes(normalizedType)) {
       window.alert(t("feedback.unsupportedType", { name: file.name }));
       continue;
     }
@@ -58,8 +78,12 @@ function addFiles(fileList: FileList | File[]) {
       continue;
     }
 
+    const uniqueId = typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+      ? crypto.randomUUID()
+      : Math.random().toString(36).slice(2, 11) + Date.now().toString(36);
+
     items.value.push({
-      key: `${file.name}-${file.size}-${crypto.randomUUID()}`,
+      key: `${file.name}-${file.size}-${uniqueId}`,
       file,
       previewUrl: URL.createObjectURL(file),
       status: "pending",
