@@ -19,6 +19,10 @@ export default defineConfig(({ mode }) => {
           target: backendUrl,
           changeOrigin: true,
         },
+        "/imgs": {
+          target: backendUrl,
+          changeOrigin: true,
+        },
       },
     },
   };

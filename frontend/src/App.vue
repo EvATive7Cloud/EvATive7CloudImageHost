@@ -70,18 +70,19 @@ function addFiles(fileList: FileList | File[]) {
 }
 
 async function onUpload() {
-  if (!pendingItems.value.length) {
+  const itemsToUpload = pendingItems.value.slice();
+  if (!itemsToUpload.length) {
     flashLabel(uploadFeedback, t("feedback.noPendingFiles"));
     return;
   }
 
-  pendingItems.value.forEach((item) => {
+  itemsToUpload.forEach((item) => {
     item.status = "uploading";
     item.message = t("status.uploading");
   });
 
   try {
-    const response = await uploadImages(pendingItems.value.map((item) => item.file));
+    const response = await uploadImages(itemsToUpload.map((item) => item.file));
     const results: UploadResult[] =
       "uploaded" in response.data ? response.data.uploaded : response.data.results;
 
@@ -97,7 +98,7 @@ async function onUpload() {
       window.alert(t("feedback.uploadFailed", { errors: failedList.join("\n") }));
     }
   } catch {
-    pendingItems.value.forEach((item) => {
+    itemsToUpload.forEach((item) => {
       item.status = "error";
       item.message = t("status.networkError");
     });
