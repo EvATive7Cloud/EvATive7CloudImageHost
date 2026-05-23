@@ -33,6 +33,9 @@ importers:
       vite:
         specifier: ^7.2.4
         version: 7.3.3(@types/node@24.12.4)
+      vite-plugin-eruda:
+        specifier: ^1.0.1
+        version: 1.0.1
       vue-tsc:
         specifier: ^3.1.4
         version: 3.3.1(typescript@5.9.3)
@@ -632,6 +635,9 @@ packages:
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
 
+  vite-plugin-eruda@1.0.1:
+    resolution: {integrity: sha512-fZ+N8Cn7XgeE12VSa7Sb2jhwlFVCEYUjJOr4m8ARDVcWNE9qO8PcC1+G1PUFdt5oAOo/RZkF77MjYB4bSQIEcw==}
+
   vite@7.3.3:
     resolution: {integrity: sha512-/4XH147Ui7OGTjg3HbdWe5arnZQSbfuRzdr9Ec7TQi5I7R+ir0Rlc9GIvD4v0XZurELqA035KVXJXpR61xhiTA==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -1200,6 +1206,8 @@ snapshots:
   typescript@5.9.3: {}
 
   undici-types@7.16.0: {}
+
+  vite-plugin-eruda@1.0.1: {}
 
   vite@7.3.3(@types/node@24.12.4):
     dependencies:

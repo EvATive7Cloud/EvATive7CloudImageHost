@@ -148,9 +148,41 @@ function applyUploadResult(result: UploadResult) {
 }
 
 async function copyText(text: string, showFeedback = false) {
-  await navigator.clipboard.writeText(text);
-  if (showFeedback) {
-    flashLabel(copyAllFeedback, t("feedback.copied"));
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.fontSize = "16px"; // Prevent iOS zoom
+      textArea.style.position = "absolute";
+      textArea.style.left = "-999999px";
+      document.body.appendChild(textArea);
+
+      if (navigator.userAgent.match(/ipad|iphone/i)) {
+        const range = document.createRange();
+        range.selectNodeContents(textArea);
+        const selection = window.getSelection();
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+        textArea.setSelectionRange(0, 999999);
+      } else {
+        textArea.select();
+      }
+
+      try {
+        document.execCommand("copy");
+      } catch (error) {
+        console.error("Fallback copy error", error);
+      } finally {
+        textArea.remove();
+      }
+    }
+    if (showFeedback) {
+      flashLabel(copyAllFeedback, t("feedback.copied"));
+    }
+  } catch (err) {
+    console.error("Failed to copy text", err);
   }
 }
 

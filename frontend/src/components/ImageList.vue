@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 export type UploadItem = {
@@ -20,6 +21,19 @@ const emit = defineEmits<{
 }>();
 
 const { t } = useI18n();
+
+const copiedKey = ref<string | null>(null);
+
+function handleCopy(item: UploadItem) {
+  if (!item.remoteUrl) return;
+  emit("copy", item.remoteUrl);
+  copiedKey.value = item.key;
+  window.setTimeout(() => {
+    if (copiedKey.value === item.key) {
+      copiedKey.value = null;
+    }
+  }, 2000);
+}
 </script>
 
 <template>
@@ -44,9 +58,9 @@ const { t } = useI18n();
           v-if="item.remoteUrl"
           class="button button-secondary"
           type="button"
-          @click="emit('copy', item.remoteUrl)"
+          @click="handleCopy(item)"
         >
-          {{ t("image.copy") }}
+          {{ copiedKey === item.key ? t("feedback.copied") : t("image.copy") }}
         </button>
         <button class="button button-danger" type="button" @click="emit('remove', item.key)">
           {{ t("image.remove") }}
