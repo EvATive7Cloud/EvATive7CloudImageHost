@@ -182,9 +182,7 @@ function onLocaleChange(event: Event) {
     </section>
 
     <section class="hero">
-      <p class="hero-eyebrow">{{ t("app.eyebrow") }}</p>
       <h1 class="hero-title">{{ t("app.title") }}</h1>
-      <p class="hero-copy">{{ t("app.description") }}</p>
     </section>
 
     <ImageUploader :disabled="loadingConfig" :max-size-label="maxSizeLabel" @add="addFiles" />

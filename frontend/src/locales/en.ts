@@ -1,8 +1,6 @@
 export default {
   app: {
-    eyebrow: "Legacy API Compatible",
     title: "EvATive7 Cloud Image Host",
-    description: "Keeps the old API and moves the frontend to Vue components.",
     upload: "Upload",
     copyAll: "Copy All",
     clearQueue: "Clear Queue",

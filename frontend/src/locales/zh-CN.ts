@@ -1,8 +1,6 @@
 export default {
   app: {
-    eyebrow: "兼容旧接口",
     title: "EvATive7 Cloud Image Host",
-    description: "保留旧 API，前端换成 Vue 组件化结构。",
     upload: "上传",
     copyAll: "复制全部",
     clearQueue: "清空队列",

@@ -1,8 +1,6 @@
 export default {
   app: {
-    eyebrow: "旧 API 互換",
     title: "EvATive7 Cloud Image Host",
-    description: "旧 API を維持しつつ、フロントエンドを Vue コンポーネント構成に置き換えます。",
     upload: "アップロード",
     copyAll: "すべてコピー",
     clearQueue: "キューをクリア",
