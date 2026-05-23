@@ -1,7 +1,7 @@
 export default {
   app: {
     eyebrow: "Legacy API Compatible",
-    title: "Image Hosting Upload Panel",
+    title: "EvATive7 Cloud Image Host",
     description: "Keeps the old API and moves the frontend to Vue components.",
     upload: "Upload",
     copyAll: "Copy All",
@@ -33,5 +33,6 @@ export default {
     noLinksToCopy: "No links available to copy",
     unsupportedType: "Unsupported file type: {name}",
     fileTooLarge: "File too large: {name}",
+    uploadFailed: "The following files failed to upload:\n{errors}",
   },
 } as const;

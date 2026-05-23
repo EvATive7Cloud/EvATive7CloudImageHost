@@ -1,7 +1,7 @@
 export default {
   app: {
     eyebrow: "旧 API 互換",
-    title: "画像ホスティングアップロードパネル",
+    title: "EvATive7 Cloud Image Host",
     description: "旧 API を維持しつつ、フロントエンドを Vue コンポーネント構成に置き換えます。",
     upload: "アップロード",
     copyAll: "すべてコピー",
@@ -33,5 +33,6 @@ export default {
     noLinksToCopy: "コピーできるリンクがありません",
     unsupportedType: "未対応のファイル形式: {name}",
     fileTooLarge: "ファイルサイズが大きすぎます: {name}",
+    uploadFailed: "以下のファイルのアップロードに失敗しました：\n{errors}",
   },
 } as const;

@@ -85,12 +85,23 @@ async function onUpload() {
     const results: UploadResult[] =
       "uploaded" in response.data ? response.data.uploaded : response.data.results;
 
-    results.forEach((result) => applyUploadResult(result));
+    const failedList: string[] = [];
+    results.forEach((result) => {
+      applyUploadResult(result);
+      if (result.status !== 201) {
+        failedList.push(`${result.filename}: ${result.message}`);
+      }
+    });
+
+    if (failedList.length > 0) {
+      window.alert(t("feedback.uploadFailed", { errors: failedList.join("\n") }));
+    }
   } catch {
     pendingItems.value.forEach((item) => {
       item.status = "error";
       item.message = t("status.networkError");
     });
+    window.alert(t("status.networkError"));
   }
 }
 

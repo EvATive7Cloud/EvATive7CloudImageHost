@@ -47,7 +47,6 @@ function onDrop(event: DragEvent) {
       :disabled="disabled"
       @change="onChange"
     />
-    <span class="upload-kicker">EvATive7 Cloud Image Host</span>
     <strong class="upload-title">{{ t("uploader.title") }}</strong>
     <span class="upload-hint">{{ t("uploader.hint", { size: maxSizeLabel }) }}</span>
   </label>

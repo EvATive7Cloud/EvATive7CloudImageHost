@@ -1,7 +1,7 @@
 export default {
   app: {
     eyebrow: "兼容旧接口",
-    title: "图床上传面板",
+    title: "EvATive7 Cloud Image Host",
     description: "保留旧 API，前端换成 Vue 组件化结构。",
     upload: "上传",
     copyAll: "复制全部",
@@ -33,5 +33,6 @@ export default {
     noLinksToCopy: "没有可复制链接",
     unsupportedType: "不支持的文件类型：{name}",
     fileTooLarge: "文件过大：{name}",
+    uploadFailed: "以下文件上传失败：\n{errors}",
   },
 } as const;
